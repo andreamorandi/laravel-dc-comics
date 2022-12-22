@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Comics')
+
 @section('content')
     <section class="bg-success">
         <div class="container py-4">

@@ -3,6 +3,7 @@
         <ul class="navbar-nav d-flex flex-row w-25 justify-content-between">
             <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
             <li class=" nav-item"><a class="nav-link" href="{{ route('comics.index') }}">Comics</a></li>
+            <li class=" nav-item"><a class="nav-link" href="{{ route('comics.create') }}">Crea</a></li>
         </ul>
     </nav>
 </header>
