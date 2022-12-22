@@ -6,7 +6,7 @@
     <section>
         <div class="container">
             <h2>Comic {{ $comic->id }}</h2>
-            <div class="mt-4">
+            <div class="my-4">
                 @if (!empty($comic->thumb))
                     <img class="w-25" src="{{ $comic->thumb }}" alt="">
                 @else
