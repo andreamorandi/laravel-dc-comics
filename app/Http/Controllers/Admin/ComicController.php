@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Comic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ComicController extends Controller
 {
@@ -37,7 +38,7 @@ class ComicController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        $data = $this->validation($request->all());
         $comic = new Comic();
         $comic->fill($data);
         $comic->save();
@@ -76,7 +77,7 @@ class ComicController extends Controller
      */
     public function update(Request $request, Comic $comic)
     {
-        $formData = $request->all();
+        $formData = $this->validation($request->all());
         $comic->update($formData);
         return redirect()->route('comics.show', $comic->id);
     }
@@ -91,5 +92,31 @@ class ComicController extends Controller
     {
         $comic->delete();
         return redirect()->route('comics.index');
+    }
+
+    private function validation($data)
+    {
+        $validationResult = Validator::make($data, [
+            'title' => 'required|min:5|max:100',
+            'description' => 'required|min:15|max:1000',
+            'thumb' => 'nullable',
+            'price' => 'required',
+            'series' => 'required',
+            'sale_date' => 'required|date',
+            'type' => 'required'
+        ], [
+            'title.required' => 'Il titolo è obbligatorio',
+            'title.min' => 'Il titolo deve essere almeno di :min caratteri',
+            'title.max' => 'Il titolo non può superare :max caratteri',
+            'description.required' => 'La descrizione è obbligatoria',
+            'description.min' => 'La descrizione deve essere almeno di :min caratteri',
+            'description.max' => 'La descrizione non può superare :max caratteri',
+            'price.required' => 'Il prezzo è obbligatorio',
+            'series.required' => 'La serie è obbligatoria',
+            'sale_date.required' => 'La data di vendita è obbligatoria',
+            'sale_date.date' => 'Formato data obbligatorio: yyyy-mm-dd',
+            'type.required' => 'La tipologia è obbligatoria'
+        ])->validate();
+        return $validationResult;
     }
 }
